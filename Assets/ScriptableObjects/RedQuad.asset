@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc43ba5f4c089247ac91655ca855529, type: 3}
+  m_Name: RedQuad
+  m_EditorClassIdentifier: 
+  itemName: 
+  textures:
+  - {fileID: 2800000, guid: 1839e5e0aa089cd4faf9c602c72b655e, type: 3}
+  - {fileID: 2800000, guid: 40d71e3e98f450249b4e938971d4b087, type: 3}
+  - {fileID: 2800000, guid: 6ce2a554e27ced948a1a467c7ad272a3, type: 3}
+  - {fileID: 2800000, guid: c815a4ba525c87441b5cc55869c9afe1, type: 3}
+  minimumGroupNumber: 0
+  middleGroupNumber: 0
+  maximumGroupNumber: 0

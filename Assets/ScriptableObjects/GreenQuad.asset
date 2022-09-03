@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc43ba5f4c089247ac91655ca855529, type: 3}
+  m_Name: GreenQuad
+  m_EditorClassIdentifier: 
+  itemName: 
+  textures:
+  - {fileID: 2800000, guid: 041016fadc13a09449b1eaf768f5e408, type: 3}
+  - {fileID: 2800000, guid: 695c47fc58081434b905e0bf127dcf31, type: 3}
+  - {fileID: 2800000, guid: 0790ec237822c3e478ed135b295bf846, type: 3}
+  - {fileID: 2800000, guid: 34fc78836fa967845b1c225982f7ca6d, type: 3}
+  minimumGroupNumber: 0
+  middleGroupNumber: 0
+  maximumGroupNumber: 0

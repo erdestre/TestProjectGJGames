@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc43ba5f4c089247ac91655ca855529, type: 3}
+  m_Name: PinkQuad
+  m_EditorClassIdentifier: 
+  itemName: 
+  textures:
+  - {fileID: 2800000, guid: 7e0aa3a5556e406468597c6ac61bfc21, type: 3}
+  - {fileID: 2800000, guid: 643626d711601f2478b9dea3cb8111e3, type: 3}
+  - {fileID: 2800000, guid: 6f939823741a8114d9b83d4577e79938, type: 3}
+  - {fileID: 2800000, guid: a6e964a21d10b914f850398b43d3bf33, type: 3}
+  minimumGroupNumber: 0
+  middleGroupNumber: 0
+  maximumGroupNumber: 0

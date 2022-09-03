@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc43ba5f4c089247ac91655ca855529, type: 3}
+  m_Name: YellowQuad
+  m_EditorClassIdentifier: 
+  itemName: 
+  textures:
+  - {fileID: 2800000, guid: 85d95dca19b793541bb53a40243d6a94, type: 3}
+  - {fileID: 2800000, guid: d9bf3be95d03c6d4784dbf170dfe7da9, type: 3}
+  - {fileID: 2800000, guid: 9e1b38e39c3884242b9bd6a65e70844f, type: 3}
+  - {fileID: 2800000, guid: 194e43c0e71849946adab30a346bdd9e, type: 3}
+  minimumGroupNumber: 0
+  middleGroupNumber: 0
+  maximumGroupNumber: 0
