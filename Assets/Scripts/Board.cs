@@ -10,12 +10,13 @@ public class Board : MonoBehaviour
     public Item[] whichItems;
     public GameObject QuadObjectPrefab;
 
-    GameObject[] Columns;
-    GameObject[][] items;
+    GameObject[,] Quads;
+
     
+
     void Start()
     {
-        Columns = new GameObject[howManyColumns];
+        Quads = new GameObject[howManyColumns, howManyItems];
 
         for (int currentColumn = 0; currentColumn < howManyColumns; currentColumn++)
         {
@@ -29,11 +30,18 @@ public class Board : MonoBehaviour
             boardColumn.GetComponent<VerticalLayoutGroup>().spacing = 1;
             boardColumn.GetComponent<RectTransform>().sizeDelta = new Vector2(1, 1);
 
-            Columns[currentColumn] = boardColumn;
             SpawnNewQuads(howManyItems, currentColumn);
         }
+        for (int currentColumn = 0; currentColumn < howManyColumns; currentColumn++)
+        {
+            for (int currentItem = 0; currentItem < howManyItems; currentItem++)
+            {
+                CheckQuad(currentColumn, currentItem);
+                totalNeighbor = 1;
+            }
+        }
     }
-
+    /*
     public void QuadSpawner()
     {
         CheckLocations(); // --> SpawnNewQuads();
@@ -46,6 +54,7 @@ public class Board : MonoBehaviour
             SpawnNewQuads(howManyItems - Columns[i].transform.childCount - 1, i);
         }
     }
+    */
     private void SpawnNewQuads(int quadNumber, int columnNumber)
     {
         for (int i = 0; i < quadNumber; i++){
@@ -53,12 +62,43 @@ public class Board : MonoBehaviour
             
             GameObject newQuad = Instantiate(QuadObjectPrefab);
             newQuad.name = "Quad";
-            newQuad.transform.SetParent(Columns[columnNumber].transform);
-            newQuad.transform.SetAsFirstSibling();
+            newQuad.transform.SetParent(transform.GetChild(columnNumber));
 
-            QuadObjects newQuadScrpt = newQuad.AddComponent<QuadObjects>();
+            CubeObjects newQuadScrpt = newQuad.AddComponent<CubeObjects>();
             newQuadScrpt.SetQuad(whichItems[randomQuad]);
-            newQuadScrpt.board = gameObject.GetComponent<Board>();
+            newQuadScrpt.board = gameObject.GetComponent<Boardd>();
+
+            Quads[columnNumber,i] = newQuad;
+
+        }
+    }
+
+    int totalNeighbor = 1;
+    private void CheckQuad(int columnNumber, int rowNumber)
+    {
+        CubeObjects mainQuadObject = Quads[columnNumber, rowNumber].GetComponent<CubeObjects>();
+        
+        if (!mainQuadObject.isChecked)
+        {
+            mainQuadObject.isChecked = true;
+            if (columnNumber - 1 >= 0)                  CheckNeighbor(columnNumber - 1, rowNumber, mainQuadObject);     //Check Left
+            if (rowNumber - 1 >= 0)                     CheckNeighbor(columnNumber, rowNumber - 1, mainQuadObject);     //Check Bottom
+            if (rowNumber + 1 < howManyItems)           CheckNeighbor(columnNumber, rowNumber + 1, mainQuadObject);     //Check Upper
+            if (columnNumber + 1 < howManyColumns)      CheckNeighbor(columnNumber + 1, rowNumber, mainQuadObject);     //Check Right
+            mainQuadObject.neighborCount = totalNeighbor;
+            mainQuadObject.ArrangeTexture();
+            Debug.Log("Object " + columnNumber + " " + rowNumber + " : " + "Neighbor Number: " + mainQuadObject.neighborCount);
+        }
+    }
+
+    private void CheckNeighbor(int columnNumber, int rowNumber, CubeObjects mainQuadObject)
+    {
+        CubeObjects neighborQuadObject = Quads[columnNumber, rowNumber].GetComponent<CubeObjects>();
+        
+        if (mainQuadObject.quadProperties == neighborQuadObject.quadProperties && !neighborQuadObject.isChecked)
+        {
+            totalNeighbor++;
+            CheckQuad(columnNumber, rowNumber);
         }
     }
 }
