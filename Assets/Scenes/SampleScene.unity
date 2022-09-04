@@ -1527,7 +1527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94ca2d6e1159ab247acef0b1dea829f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeCountInColumns: 0b0000000b0000000b0000000b0000000b0000000b0000000b000000
+  rowLength: 7
+  cubeCountInARow: 11
   whichItems:
   - {fileID: 11400000, guid: 224b23653c89d3c4e8dac47b77f2f016, type: 2}
   - {fileID: 11400000, guid: a561a9ea8f5fc6e4dbddac7cdd520bce, type: 2}

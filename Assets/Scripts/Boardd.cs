@@ -5,81 +5,113 @@ using UnityEngine;
 
 public class Boardd : MonoBehaviour
 {
-    public int[] cubeCountInColumns; // 7 column, 11 cube will be default
+    public int rowLength;
+    public int cubeCountInARow;
 
-    public GameObject[,] Cubes;
+    public GameObject[,] CubeLocation;
     public Item[] whichItems;
 
     public GameObject CubePrefab;
     int extraSpacing = 0;
     Transform CubeSpawnPoint;
-    LinkedList<GameObject>[] Columns;
     private void Start()
     {
         CubeSpawnPoint = transform.Find("Spawner").transform;
-        Cubes = new GameObject[cubeCountInColumns.Length, cubeCountInColumns.Max()];
+        CubeLocation = new GameObject[rowLength, cubeCountInARow];
+        CubeChainStack = new Stack<CubeObjects>();
 
-
-        for (int currentColumn = 0; currentColumn < cubeCountInColumns.Length; currentColumn++) //Column
+        for (int currentRowLength = 0; currentRowLength < rowLength; currentRowLength++) //Column
         {
-            for (int currentCubeCount = 0; currentCubeCount < cubeCountInColumns[currentColumn]; currentCubeCount++) //itemCount in this column
+            for (int currentCubeCountInARow = 0; currentCubeCountInARow < cubeCountInARow; currentCubeCountInARow++) //itemCount in this column
             {
-                SpawnCubes(currentCubeCount,currentColumn);
+                SpawnCubes(currentRowLength, currentCubeCountInARow);
             }
         }
-        extraSpacing = cubeCountInColumns.Max();
+        extraSpacing = cubeCountInARow/2;
+        StartCheckCubeChain();
     }
-    void SpawnCubes(int currentCube, int currentColumn)
+    public void SpawnCubes(int currentRow, int currentCube)
     {
-        int randomCube = Random.Range(0, whichItems.Length);
+        int randomCube = Random.Range(0, whichItems.Length); 
 
-        CubeSpawnPoint.localPosition = new Vector2(currentColumn, currentCube + extraSpacing);
+        CubeSpawnPoint.localPosition = new Vector2(currentRow, currentCube + extraSpacing);
         
         GameObject newCube = Instantiate(CubePrefab);
         CubeObjects newCubeScrpt = newCube.AddComponent<CubeObjects>();
         newCubeScrpt.SetQuad(whichItems[randomCube]);
         newCubeScrpt.board = gameObject.GetComponent<Boardd>();
         newCube.transform.position = CubeSpawnPoint.transform.position;
+        newCube.name = currentRow + "  " + currentCube;
+        newCubeScrpt.Location = new Vector2(currentRow, currentCube);
 
-        newCubeScrpt.ColumnLocationInArray = currentColumn;
-        newCubeScrpt.CubeLocationInColumn = currentCube;
-
-        Cubes[currentColumn, currentCube] = newCube;
+        CubeLocation[currentRow, currentCube] = newCube;
     }
-    Stack<CubeObjects> CubeStack;
-    int neighborCount;
-    void StartChecking()
+    
+    Stack<CubeObjects> CubeChainStack;
+    void StartCheckCubeChain() //from left to right, bottom to top
     {
-        for (int currentColumn = 0; currentColumn < cubeCountInColumns.Length; currentColumn++) //Column
+        for (int currentRowLength = 0; currentRowLength < rowLength; currentRowLength++) //Column
         {
-            for (int currentCube = 0; currentCube < cubeCountInColumns[currentColumn]; currentCube++) //itemCount in this column
+            for (int currentCubeCountInARow = 0; currentCubeCountInARow < cubeCountInARow; currentCubeCountInARow++) //itemCount in this column
             {
-                CheckMainCubeNeighbors(currentColumn,currentCube);
+                CheckMainCubeNeighbors(currentRowLength, currentCubeCountInARow);
+                int ChainCount = CubeChainStack.Count();
+                for (int i = 0; i < ChainCount; i++)
+                {
+                    CubeChainStack.Peek().neighborCount = ChainCount;
+                    CubeChainStack.Peek().ArrangeTexture();
+                    CubeChainStack.Pop();
+                }
             }
         }
+        
     }
-    void CheckMainCubeNeighbors(int columnCount, int cubeCount)
+    void CheckMainCubeNeighbors(int whichRow, int whichCube) //from left to right, bottom to top
     {
-        CubeObjects mainQuadObject = Cubes[columnCount, cubeCount].GetComponent<CubeObjects>();
+        CubeObjects mainCubeObject = CubeLocation[whichRow, whichCube].GetComponent<CubeObjects>();
+        
 
-        if (!mainQuadObject.isChecked)
+        if (!mainCubeObject.isChecked)
         {
-            mainQuadObject.isChecked = true;
-            CubeStack.Push(mainQuadObject);
+            CubeChainStack.Push(mainCubeObject);
+            mainCubeObject.isChecked = true;
 
-            if (columnCount - 1 >= 0)               CheckNeighborNeighbors(columnCount - 1, cubeCount, mainQuadObject);     //Check Left
-            if (cubeCount - 1 >= 0)                 CheckNeighborNeighbors(columnCount, cubeCount - 1, mainQuadObject);     //Check Bottom
-            if (cubeCount + 1 < cubeCount)          CheckNeighborNeighbors(columnCount, cubeCount + 1, mainQuadObject);     //Check Upper
-            if (columnCount + 1 < columnCount)      CheckNeighborNeighbors(columnCount + 1, cubeCount, mainQuadObject);     //Check Right
+            if (whichRow - 1 >= 0)                  CheckNeighborNeighbors(whichRow - 1, whichCube, mainCubeObject);     //Check Left
+            if (whichCube - 1 >= 0)                 CheckNeighborNeighbors(whichRow, whichCube - 1, mainCubeObject);     //Check Bottom
+            if (whichCube + 1 < cubeCountInARow)          CheckNeighborNeighbors(whichRow, whichCube + 1, mainCubeObject);     //Check Upper
+            if (whichRow + 1 < rowLength)            CheckNeighborNeighbors(whichRow + 1, whichCube, mainCubeObject);     //Check Right
         }
     }
-    void CheckNeighborNeighbors(int columnNumber, int rowNumber, CubeObjects mainQuadObject)
+    void CheckNeighborNeighbors(int columnNumber, int rowNumber, CubeObjects mainCubeObject)
     {
-        CubeObjects neighborQuadObject = Cubes[columnNumber, rowNumber].GetComponent<CubeObjects>();
+        CubeObjects neighborQuadObject = CubeLocation[columnNumber, rowNumber].GetComponent<CubeObjects>();
 
-        if (mainQuadObject.quadProperties == neighborQuadObject.quadProperties && !neighborQuadObject.isChecked)
+        if (mainCubeObject.quadProperties == neighborQuadObject.quadProperties)
         {
             CheckMainCubeNeighbors(columnNumber, rowNumber);
+        }
+    }
+
+    public void DestroyCube(int locationX, int locationY, GameObject cube)
+    {
+        for (int i = locationY+1; i < cubeCountInARow; i++)
+        {
+            CubeLocation[locationX, i].GetComponent<CubeObjects>().MoveQuad();
+        }
+        SpawnCubes(locationX, cubeCountInARow - 1);
+        Destroy(cube);
+        ResetNeighborhood();
+        StartCheckCubeChain();
+    }
+
+    private void ResetNeighborhood()
+    {
+        for (int currentRowLength = 0; currentRowLength < rowLength; currentRowLength++) //Column
+        {
+            for (int currentCubeCountInARow = 0; currentCubeCountInARow < cubeCountInARow; currentCubeCountInARow++) //itemCount in this column
+            {
+                CubeLocation[currentRowLength, currentCubeCountInARow].GetComponent<CubeObjects>().isChecked = false;
+            }
         }
     }
 }

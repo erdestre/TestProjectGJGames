@@ -8,7 +8,7 @@ public class CubeObjects : MonoBehaviour
     public Item quadProperties;
     [HideInInspector]
     public Boardd board;
-    public int ColumnLocationInArray, CubeLocationInColumn;
+    public Vector2 Location;
     
     public bool isChecked = false;
     
@@ -35,17 +35,15 @@ public class CubeObjects : MonoBehaviour
     }
     public void DestroyQuad()
     {
-        for (int i = CubeLocationInColumn; i < board.cubeCountInColumns[ColumnLocationInArray]; i++)
-        {
-
-            board.Cubes[ColumnLocationInArray, i].GetComponent<CubeObjects>().MoveQuad();
-        }
-        Debug.Log("Object Destroyed");
-        Destroy(gameObject);
+        
     }
     public void MoveQuad()
     {
-
+        if (Location.y >= 0);
+        {
+            board.CubeLocation[(int)Location.x, (int)Location.y - 1] = gameObject;
+            Location = new Vector2(Location.x, Location.y - 1);
+        }
     }
     private void CheckNeighbor()
     {
@@ -53,6 +51,6 @@ public class CubeObjects : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        DestroyQuad();
+        board.DestroyCube((int)Location.x, (int)Location.y, gameObject);
     }
 }
