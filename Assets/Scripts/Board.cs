@@ -64,9 +64,9 @@ public class Board : MonoBehaviour
             newQuad.name = "Quad";
             newQuad.transform.SetParent(transform.GetChild(columnNumber));
 
-            QuadObjects newQuadScrpt = newQuad.AddComponent<QuadObjects>();
+            CubeObjects newQuadScrpt = newQuad.AddComponent<CubeObjects>();
             newQuadScrpt.SetQuad(whichItems[randomQuad]);
-            newQuadScrpt.board = gameObject.GetComponent<Board>();
+            newQuadScrpt.board = gameObject.GetComponent<Boardd>();
 
             Quads[columnNumber,i] = newQuad;
 
@@ -76,7 +76,7 @@ public class Board : MonoBehaviour
     int totalNeighbor = 1;
     private void CheckQuad(int columnNumber, int rowNumber)
     {
-        QuadObjects mainQuadObject = Quads[columnNumber, rowNumber].GetComponent<QuadObjects>();
+        CubeObjects mainQuadObject = Quads[columnNumber, rowNumber].GetComponent<CubeObjects>();
         
         if (!mainQuadObject.isChecked)
         {
@@ -91,9 +91,9 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void CheckNeighbor(int columnNumber, int rowNumber, QuadObjects mainQuadObject)
+    private void CheckNeighbor(int columnNumber, int rowNumber, CubeObjects mainQuadObject)
     {
-        QuadObjects neighborQuadObject = Quads[columnNumber, rowNumber].GetComponent<QuadObjects>();
+        CubeObjects neighborQuadObject = Quads[columnNumber, rowNumber].GetComponent<CubeObjects>();
         
         if (mainQuadObject.quadProperties == neighborQuadObject.quadProperties && !neighborQuadObject.isChecked)
         {
