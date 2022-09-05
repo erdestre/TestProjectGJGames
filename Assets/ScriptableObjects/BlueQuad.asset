@@ -12,12 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc43ba5f4c089247ac91655ca855529, type: 3}
   m_Name: BlueQuad
   m_EditorClassIdentifier: 
-  itemName: 
   textures:
   - {fileID: 2800000, guid: 0f760d1ce21265d40b9d17743530ef2f, type: 3}
   - {fileID: 2800000, guid: d4cae67c51c1d3040a6e478a9ccd8382, type: 3}
   - {fileID: 2800000, guid: 14c1ddff29a86a242b5636c696300045, type: 3}
   - {fileID: 2800000, guid: fc69f8d03d746b248a6f97017852c76c, type: 3}
-  minimumGroupNumber: 0
-  middleGroupNumber: 0
-  maximumGroupNumber: 0

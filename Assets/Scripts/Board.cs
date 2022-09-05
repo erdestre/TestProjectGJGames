@@ -11,8 +11,12 @@ public class Board : MonoBehaviour
     public GameObject[,] CubeLocation;
     public Item[] whichItems;
 
+    public int minGroup, midGroup, maxGroup;
+
     public GameObject CubePrefab;
     
+    
+
     int extraSpacing;
     Transform CubeSpawnPoint;
     
@@ -46,7 +50,7 @@ public class Board : MonoBehaviour
         extraSpacing++;
         GameObject newCube = Instantiate(CubePrefab);
         CubeObjects newCubeScrpt = newCube.AddComponent<CubeObjects>();
-        newCubeScrpt.SetQuad(whichItems[randomCube]);
+        newCubeScrpt.SetCube(whichItems[randomCube],minGroup,midGroup,maxGroup);
         newCubeScrpt.board = gameObject.GetComponent<Board>();
         newCube.transform.position = CubeSpawnPoint.transform.position;
         newCube.name = currentRow + "  " + currentCube;
@@ -121,9 +125,9 @@ public class Board : MonoBehaviour
     }
     void CheckNeighborNeighbors(int columnNumber, int rowNumber, CubeObjects mainCubeObject)
     {
-        CubeObjects neighborQuadObject = CubeLocation[columnNumber, rowNumber].GetComponent<CubeObjects>();
+        CubeObjects neighborCubeObject = CubeLocation[columnNumber, rowNumber].GetComponent<CubeObjects>();
 
-        if (mainCubeObject.quadProperties == neighborQuadObject.quadProperties)
+        if (mainCubeObject.cubeProperties == neighborCubeObject.cubeProperties)
         {
             CheckMainCubeNeighbors(columnNumber, rowNumber);
         }
@@ -150,7 +154,7 @@ public class Board : MonoBehaviour
     {
         for (int i = locationY+1; i < cubeCountInARow; i++)
         {
-            CubeLocation[locationX, i].GetComponent<CubeObjects>().MoveQuad();
+            CubeLocation[locationX, i].GetComponent<CubeObjects>().MoveCube();
         }
         SpawnCubes(locationX, cubeCountInARow - 1);
     }
