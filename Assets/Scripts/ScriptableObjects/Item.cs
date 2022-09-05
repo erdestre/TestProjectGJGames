@@ -11,11 +11,4 @@ public class Item : ScriptableObject
     public Texture2D[] textures;
 
     [Range(0, 10)] public int minimumGroupNumber, middleGroupNumber, maximumGroupNumber;
-
-    /*
-    public Item(string itemName)
-    {
-        this.itemName = itemName;
-    }
-    */
 }
